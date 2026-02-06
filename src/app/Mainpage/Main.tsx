@@ -18,6 +18,7 @@ export default function Main() {
           </TabsList>
         </Tabs>
       </header>
+      <body></body>
     </div>
   );
 }
