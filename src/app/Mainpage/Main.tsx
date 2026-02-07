@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Login from "./Login";
 export default function Main() {
   const [switcher, setSwitcher] = useState<boolean>(false);
   return (
@@ -18,7 +19,13 @@ export default function Main() {
           </TabsList>
         </Tabs>
       </header>
-      <body></body>
+      <body>
+        {!switcher && (
+          <div>
+            <Login />
+          </div>
+        )}
+      </body>
     </div>
   );
 }
