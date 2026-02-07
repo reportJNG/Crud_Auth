@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Login from "./Login";
+import Signup from "./Signup";
 export default function Main() {
   const [switcher, setSwitcher] = useState<boolean>(false);
   return (
@@ -23,6 +24,11 @@ export default function Main() {
         {!switcher && (
           <div>
             <Login />
+          </div>
+        )}
+        {switcher && (
+          <div>
+            <Signup />
           </div>
         )}
       </body>

@@ -15,8 +15,9 @@ export default function Login() {
   const onSubmit = (data: LoginSchema) => {
     console.log("login data", data);
   };
+  const onReset = () => {};
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
       <div>
         <Label>Email:</Label>
         <Input {...register("email")} />
@@ -27,7 +28,10 @@ export default function Login() {
         <Input {...register("password")} />
         <p>{errors.password?.message}</p>
       </div>
-      <Button type="submit">Login</Button>
+      <div>
+        <Button type="reset">Reset</Button>
+        <Button type="submit">Submit</Button>
+      </div>
     </form>
   );
 }
