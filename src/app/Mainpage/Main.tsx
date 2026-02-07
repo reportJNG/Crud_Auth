@@ -9,7 +9,7 @@ export default function Main() {
     <div>
       <header>
         {/**top header of the main webpage normal state will show the login webpage to change btw pages login and sign up */}
-        <Tabs defaultValue="overview">
+        <Tabs defaultValue="Login">
           <TabsList variant="line">
             <TabsTrigger value="Login" onClick={() => setSwitcher(false)}>
               Login

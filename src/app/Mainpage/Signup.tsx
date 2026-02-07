@@ -13,9 +13,8 @@ export default function Signup() {
     formState: { errors },
   } = useForm<Signupschema>({ resolver: zodResolver(signupschema) });
   const onSubmit = (data: Signupschema) => {};
-  const onReset = () => {};
   return (
-    <form onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <Label>Email:</Label>
         <Input {...register("email")} />
