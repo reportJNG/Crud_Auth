@@ -17,31 +17,66 @@ export default function Login() {
   const onSubmit = (data: LoginSchema) => {
     console.log("login data", data);
   };
-  const [emailVisible, setEmailVisible] = useState(false);
+  const [visible, setVisible] = useState<{ email: boolean; password: boolean }>(
+    { email: false, password: false },
+  );
   useEffect(() => {
-    if (errors.email?.message) {
-      const id = setTimeout(() => setEmailVisible(true), 0);
+    if (errors.email?.message && errors.password) {
+      const id = setTimeout(
+        () => setVisible((prev) => ({ ...prev, email: true, password: true })),
+        0,
+      );
       const timer = setTimeout(() => {
-        setEmailVisible(false);
+        setVisible((prev) => ({ ...prev, email: false, password: false }));
         clearErrors("email");
+        clearErrors("password");
       }, 3000);
       return () => {
         clearTimeout(id);
         clearTimeout(timer);
       };
+    } else {
+      if (errors.email?.message) {
+        const id = setTimeout(
+          () => setVisible((prev) => ({ ...prev, email: true })),
+          0,
+        );
+        const timer = setTimeout(() => {
+          setVisible((prev) => ({ ...prev, email: false }));
+          clearErrors("email");
+        }, 3000);
+        return () => {
+          clearTimeout(id);
+          clearTimeout(timer);
+        };
+      }
+      if (errors.password?.message) {
+        const id = setTimeout(
+          () => setVisible((prev) => ({ ...prev, password: true })),
+          0,
+        );
+        const timer = setTimeout(() => {
+          setVisible((prev) => ({ ...prev, password: false }));
+          clearErrors("password");
+        }, 3000);
+        return () => {
+          clearTimeout(id);
+          clearTimeout(timer);
+        };
+      }
     }
-  }, [errors.email?.message, clearErrors]);
+  }, [errors, clearErrors]);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <Label>Email:</Label>
-        <Input {...register("email")} />
-        {emailVisible && <p>{errors.email?.message}</p>}
+        <Input {...register("email")} maxLength={30} />
+        {visible.email && <p>{errors.email?.message}</p>}
       </div>
       <div>
         <Label>Password:</Label>
-        <Input {...register("password")} />
-        <p>{errors.password?.message}</p>
+        <Input {...register("password")} minLength={6} maxLength={8} />
+        {visible.password && <p>{errors.password?.message}</p>}
       </div>
       <div>
         <Button type="reset">Reset</Button>
