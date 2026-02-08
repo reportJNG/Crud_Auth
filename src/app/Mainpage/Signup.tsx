@@ -14,6 +14,7 @@ import {
   XCircle,
   UserPlus,
   AlertCircle,
+  User,
 } from "lucide-react";
 
 interface Signupprops {
@@ -142,6 +143,26 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                 htmlFor="email"
                 className="text-sm font-medium flex items-center gap-2"
               >
+                <User className="w-4 h-4" />
+                User Name
+              </Label>
+              <div className="relative">
+                <Input
+                  id="name"
+                  type="text"
+                  {...register("name")}
+                  maxLength={20}
+                  minLength={1}
+                  placeholder="joe"
+                  className={`pl-10 pr-10 py-6 `}
+                />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              </div>
+
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium flex items-center gap-2"
+              >
                 <Mail className="w-4 h-4" />
                 Email Address
               </Label>
@@ -151,7 +172,7 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                   type="email"
                   {...register("email")}
                   maxLength={30}
-                  placeholder="you@example.com"
+                  placeholder="joe@example.com"
                   className={`pl-10 pr-10 py-6 ${errors.email && visible.email ? "border-destructive" : "border-input"}`}
                 />
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
