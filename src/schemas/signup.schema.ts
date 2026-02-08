@@ -1,5 +1,6 @@
 import { z } from "zod";
 export const signupschema = z.object({
+  name: z.string().max(20).min(1),
   email: z.string().email("invalid email"),
   password: z
     .string()
