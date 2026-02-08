@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Login from "./Login";
 import Signup from "./Signup";
-import { toast } from "sonner";
 
 export default function Main() {
   const [switcher, setSwitcher] = useState<boolean>(false);
@@ -10,6 +9,7 @@ export default function Main() {
   const tabsSwitcher = (tab: "Login" | "Sign up") => {
     setActiveTab(tab);
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/20 p-4 ">
       <div className="w-full max-w-md">

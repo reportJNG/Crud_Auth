@@ -15,10 +15,14 @@ import {
   AlertCircle,
   CheckCircle2,
 } from "lucide-react";
+
+import { toast } from "sonner";
+
 interface Signupprops {
   setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
   tabsSwitcher: (tab: "Login" | "Sign up") => void;
 }
+
 export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
@@ -32,6 +36,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
 
   const onSubmit = (data: LoginSchema) => {
     console.log("login data", data);
+    toast.loading("Seccusefully");
   };
 
   const [visible, setVisible] = useState<{ email: boolean; password: boolean }>(
