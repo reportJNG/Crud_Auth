@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { toast } from "sonner";
+import { loginact } from "../actions/login";
 
 interface Signupprops {
   setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,15 +29,29 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
+    reset,
     clearErrors,
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log("login data", data);
-    toast.loading("Seccusefully");
+  const onSubmit = async (data: LoginSchema) => {
+    const id = toast.loading("Logging in...");
+    const result = await loginact(data);
+    setTimeout(() => {
+      toast.dismiss(id);
+      if (result.error) {
+        toast.error(result.error);
+      } else if (result.success) {
+        toast.success("Login successful!");
+      }
+      setTimeout(() => {
+        reset();
+        clearErrors();
+        window.location.reload();
+      }, 1000);
+    }, 1000);
   };
 
   const [visible, setVisible] = useState<{ email: boolean; password: boolean }>(
