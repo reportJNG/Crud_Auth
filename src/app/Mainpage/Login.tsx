@@ -15,8 +15,11 @@ import {
   AlertCircle,
   CheckCircle2,
 } from "lucide-react";
-
-export default function Login() {
+interface Signupprops {
+  setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
+  tabsSwitcher: (tab: "Login" | "Sign up") => void;
+}
+export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
     handleSubmit,
@@ -86,7 +89,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/10 to-primary/5 p-4">
       <div className="w-full max-w-md">
-        <div className="bg-card/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-border overflow-hidden">
+        <div className="bg-card/95  rounded-2xl  overflow-hidden">
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="px-8 py-6 space-y-6"
@@ -205,6 +208,10 @@ export default function Login() {
               <a
                 href="#"
                 className="text-primary hover:text-primary/80 font-medium transition-colors hover:underline"
+                onClick={() => {
+                  setSwitcher(true);
+                  tabsSwitcher("Sign up");
+                }}
               >
                 Sign up now
               </a>

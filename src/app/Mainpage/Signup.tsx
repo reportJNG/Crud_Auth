@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Signupschema, signupschema } from "@/schemas/signup.schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,11 +16,15 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-export default function Signup() {
+interface Signupprops {
+  setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
+  tabsSwitcher: (tab: "Login" | "Sign up") => void;
+}
+export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
     clearErrors,
     watch,
   } = useForm<Signupschema>({ resolver: zodResolver(signupschema) });
@@ -127,10 +131,11 @@ export default function Signup() {
   };
 
   const passwordStrength = getPasswordStrength(password || "");
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/30 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-card/50 backdrop-blur-sm rounded-2xl shadow-xl border border-border p-8">
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl  p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
               <Label
@@ -314,7 +319,7 @@ export default function Signup() {
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isValid}
                 className="flex-1 h-12 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all shadow-lg hover:shadow-xl cursor-pointer"
               >
                 {isSubmitting ? (
@@ -334,7 +339,14 @@ export default function Signup() {
           <div className="text-center mt-6">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
-              <a href="#" className="text-primary font-medium hover:underline">
+              <a
+                href="#"
+                className="text-primary font-medium hover:underline"
+                onClick={() => {
+                  setSwitcher(false);
+                  tabsSwitcher("Login");
+                }}
+              >
                 Sign in
               </a>
             </p>
