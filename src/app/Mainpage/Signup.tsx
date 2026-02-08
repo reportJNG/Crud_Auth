@@ -133,9 +133,9 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
   const passwordStrength = getPasswordStrength(password || "");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/30 flex items-center justify-center p-4">
+    <div className="min-h-screen  from-background to-muted/30 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-card/50 backdrop-blur-sm rounded-2xl  p-8">
+        <div className=" rounded-2xl  p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
               <Label
@@ -240,7 +240,6 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
               )}
             </div>
 
-            {/* Confirm Password Field */}
             <div className="space-y-2">
               <Label
                 htmlFor="confirmpassword"
@@ -286,7 +285,6 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                 </button>
               </div>
 
-              {/* Password Match Indicator */}
               {password && confirmPassword && (
                 <div
                   className={`flex items-center gap-2 text-sm ${
@@ -320,7 +318,7 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
               <Button
                 type="submit"
                 disabled={isSubmitting || !isValid}
-                className="flex-1 h-12 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all shadow-lg hover:shadow-xl cursor-pointer"
+                className="flex-1 h-12 gap-2 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all shadow-lg hover:shadow-xl cursor-pointer"
               >
                 {isSubmitting ? (
                   <>

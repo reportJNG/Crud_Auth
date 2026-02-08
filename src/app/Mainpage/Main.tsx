@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Login from "./Login";
 import Signup from "./Signup";
+import { ThemeToggle } from "./Themetoggle";
 
 export default function Main() {
   const [switcher, setSwitcher] = useState<boolean>(false);
@@ -11,7 +12,8 @@ export default function Main() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted/20 p-4 ">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-background to-muted/20 p-4 ">
+      <ThemeToggle />
       <div className="w-full max-w-md">
         <div className="bg-card border border-border rounded-2xl shadow-xl shadow-primary/5 p-6 ">
           <header className="mb-8">
@@ -22,7 +24,7 @@ export default function Main() {
             >
               <TabsList
                 variant="line"
-                className="w-full grid grid-cols-2 bg-muted/50 p-1 rounded-lg"
+                className="w-full grid grid-cols-2  p-1 rounded-lg"
               >
                 <TabsTrigger
                   value="Login"
@@ -43,7 +45,6 @@ export default function Main() {
               </TabsList>
             </Tabs>
           </header>
-
           <body className="relative">
             <div className="overflow-hidden">
               <div

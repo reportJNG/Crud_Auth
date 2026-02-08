@@ -92,7 +92,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
   }, [errors, clearErrors]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/10 to-primary/5 p-4">
+    <div className="min-h-screen flex items-center justify-center  from-background via-secondary/10 to-primary/5 p-4">
       <div className="w-full max-w-md">
         <div className="bg-card/95  rounded-2xl  overflow-hidden">
           <form
@@ -127,7 +127,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
               </div>
               {visible.email && errors.email?.message && (
                 <div className="flex items-center gap-2 text-sm text-destructive animate-in slide-in-from-top-1 duration-200">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 shrink-0" />
                   <span className="font-medium">{errors.email.message}</span>
                 </div>
               )}
@@ -167,7 +167,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
               </div>
               {visible.password && errors.password?.message && (
                 <div className="flex items-center gap-2 text-sm text-destructive animate-in slide-in-from-top-1 duration-200">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 shrink-0" />
                   <span className="font-medium">{errors.password.message}</span>
                 </div>
               )}
@@ -191,7 +191,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
               <Button
                 type="submit"
                 disabled={isSubmitting || !isValid}
-                className="flex-1 py-6 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-6 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
