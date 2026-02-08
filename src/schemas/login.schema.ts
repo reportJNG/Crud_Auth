@@ -1,6 +1,10 @@
 import { z } from "zod";
 export const loginSchema = z.object({
-  email: z.string().email("invalid email"),
+  email: z
+    .string()
+    .email("invalid email")
+    .transform((val) => val.replace(/[^a-zA-Z0-9@_-]/g, "")),
+
   password: z
     .string()
     .min(6, "Password must be at least 6")

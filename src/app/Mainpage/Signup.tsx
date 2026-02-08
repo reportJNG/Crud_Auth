@@ -16,6 +16,8 @@ import {
   AlertCircle,
   User,
 } from "lucide-react";
+import signupact from "../actions/signup";
+import { toast } from "sonner";
 
 interface Signupprops {
   setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,13 +28,32 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
+    reset,
     clearErrors,
     watch,
   } = useForm<Signupschema>({ resolver: zodResolver(signupschema) });
 
   const onSubmit = async (data: Signupschema) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
+    if (passwordStrength < 75) {
+      toast.warning("Create strong password");
+    } else {
+      const id = toast.loading("Sign up in ...");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const result = await signupact(data);
+      setTimeout(() => {
+        toast.dismiss(id);
+        if (result?.error) {
+          toast.error(result.error);
+        } else if (result?.success) {
+          toast.success(result.success);
+        }
+        setTimeout(() => {
+          reset();
+          clearErrors();
+          window.location.reload();
+        }, 2500);
+      }, 1000);
+    }
   };
 
   const [visible, setVisible] = useState<{

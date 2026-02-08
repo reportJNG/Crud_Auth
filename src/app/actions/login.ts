@@ -14,7 +14,9 @@ export async function loginact(data: LoginSchema) {
   if (!user) {
     return { error: "Invalid email" };
   }
-
+  if (data.password.length < 6 || data.password.length > 8) {
+    return { error: "Inavlid password" };
+  }
   if (user.password !== password) {
     return { error: "Invalid password" };
   }

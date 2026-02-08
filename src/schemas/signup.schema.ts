@@ -1,7 +1,15 @@
 import { z } from "zod";
 export const signupschema = z.object({
-  name: z.string().max(20).min(1),
-  email: z.string().email("invalid email"),
+  name: z
+    .string()
+    .max(20)
+    .min(1)
+    .transform((val) => val.replace(/[^a-zA-Z0-9]/g, "")),
+
+  email: z
+    .string()
+    .email("invalid email")
+    .transform((val) => val.replace(/[^a-zA-Z0-9@_-]/g, "")),
   password: z
     .string()
     .min(6, "Password must be at least 6")

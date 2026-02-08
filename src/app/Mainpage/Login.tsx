@@ -50,7 +50,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
         reset();
         clearErrors();
         window.location.reload();
-      }, 1000);
+      }, 2500);
     }, 1000);
   };
 
@@ -237,6 +237,16 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
               </a>
             </p>
           </div>
+          <p className="text-xs text-center text-muted-foreground pt-4 border-t border-border">
+            By creating an account, you agree to our{" "}
+            <a href="#" className="text-primary hover:underline">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="#" className="text-primary hover:underline">
+              Privacy Policy
+            </a>
+          </p>
         </div>
       </div>
     </div>
