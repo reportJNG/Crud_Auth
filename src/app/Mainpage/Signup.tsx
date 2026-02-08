@@ -29,6 +29,7 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     reset,
+    setValue,
     clearErrors,
     watch,
   } = useForm<Signupschema>({ resolver: zodResolver(signupschema) });
@@ -173,6 +174,13 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                   type="text"
                   {...register("name")}
                   maxLength={20}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(
+                      /[^a-zA-Z0-9@_-]/g,
+                      "",
+                    );
+                    setValue("name", clean);
+                  }}
                   minLength={1}
                   placeholder="joe"
                   className={`pl-10 pr-10 py-6 `}
@@ -193,6 +201,13 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                   type="email"
                   {...register("email")}
                   maxLength={30}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(
+                      /[^a-zA-Z0-9@_-]/g,
+                      "",
+                    );
+                    setValue("email", clean);
+                  }}
                   placeholder="joe@example.com"
                   className={`pl-10 pr-10 py-6 ${errors.email && visible.email ? "border-destructive" : "border-input"}`}
                 />
@@ -229,6 +244,10 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                   {...register("password")}
                   maxLength={8}
                   minLength={6}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                    setValue("password", clean);
+                  }}
                   placeholder="••••••••"
                   className={`pl-10 pr-10 py-6 ${errors.password && visible.password ? "border-destructive" : "border-input"}`}
                 />
@@ -297,6 +316,10 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                   {...register("confirmpassword")}
                   maxLength={8}
                   minLength={6}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                    setValue("confirmpassword", clean);
+                  }}
                   placeholder="••••••••"
                   className={`pl-10 pr-10 py-6 ${
                     errors.confirmpassword && visible.confirmpassword

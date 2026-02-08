@@ -28,6 +28,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting, isValid },
     reset,
     clearErrors,
@@ -133,6 +134,13 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
                   maxLength={30}
                   className="pl-10 pr-4 py-6 bg-background/50 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                   placeholder="you@example.com"
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(
+                      /[^a-zA-Z0-9@_-]/g,
+                      "",
+                    );
+                    setValue("email", clean);
+                  }}
                 />
                 {!errors.email && visible.email && (
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -167,6 +175,10 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
                   maxLength={8}
                   className="pl-10 pr-12 py-6 bg-background/50 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                   placeholder="••••••••"
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                    setValue("password", clean);
+                  }}
                 />
                 <button
                   type="button"
