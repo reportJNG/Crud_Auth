@@ -1,6 +1,8 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { LoginSchema } from "@/schemas/login.schema";
+import { hashPassword } from "@/lib/password";
+
 export async function loginact(data: LoginSchema) {
   const email = data.email as string;
   const password = data.password as string;
