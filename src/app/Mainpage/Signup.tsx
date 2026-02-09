@@ -60,12 +60,16 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
             resetField("confirmpassword");
             resetField("password");
             resetField("email");
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
           }
         }
       }, 1000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+      };
     }
   };
 
