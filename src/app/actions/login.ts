@@ -7,19 +7,24 @@ export async function loginact(data: LoginSchema) {
   if (!email || !password) {
     return { error: "Email and password required" };
   }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "Unxpected email" };
+  }
+  if (!/^[A-Za-z0-9]+$/.test(password)) {
+    return { error: "Password must contain only letters and numbers" };
+  }
+  if (password.length < 6 || password.length > 8) {
+    return { error: "Inavlid password" };
+  }
+  //here both are good password and email no bad data
   const user = await prisma.users.findUnique({
     where: { email },
   });
-
   if (!user) {
-    return { error: "Invalid email" };
-  }
-  if (data.password.length < 6 || data.password.length > 8) {
-    return { error: "Inavlid password" };
+    return { error: "User doesn't exsit" };
   }
   if (user.password !== password) {
-    return { error: "Invalid password" };
+    return { error: "Invalid password for use" };
   }
-
   return { success: true };
 }

@@ -2,7 +2,7 @@ import { z } from "zod";
 export const loginSchema = z.object({
   email: z
     .string()
-    .email("invalid email")
+    .email("Invalid email")
     .transform((val) => val.replace(/[^a-zA-Z0-9@_.-]/g, "")),
 
   password: z

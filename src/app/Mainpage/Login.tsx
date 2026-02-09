@@ -28,30 +28,33 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    reset,
     clearErrors,
+    resetField,
+    formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
-    mode: "onChange",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
-
   const onSubmit = async (data: LoginSchema) => {
     const id = toast.loading("Logging in...");
     const result = await loginact(data);
-    setTimeout(() => {
+    const small = setTimeout(() => {
       toast.dismiss(id);
       if (result.error) {
         toast.error(result.error);
-      } else if (result.success) {
-        toast.success("Login successful!");
+        resetField("password");
+      } else {
+        if (result.success) {
+          toast.error(result.success);
+        }
       }
-      setTimeout(() => {
-        reset();
-        clearErrors();
-        window.location.reload();
-      }, 2500);
     }, 1000);
+    return () => clearTimeout(small);
   };
 
   const [visible, setVisible] = useState<{ email: boolean; password: boolean }>(
@@ -163,7 +166,6 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  minLength={6}
                   maxLength={8}
                   className="pl-10 pr-12 py-6 bg-background/50 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                   placeholder="••••••••"
@@ -205,7 +207,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className="flex-1 py-6 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
