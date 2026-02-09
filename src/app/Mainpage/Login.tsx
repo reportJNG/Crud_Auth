@@ -28,9 +28,9 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
     handleSubmit,
-    clearErrors,
-    resetField,
     formState: { errors, isSubmitting },
+    resetField,
+    clearErrors,
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
@@ -134,6 +134,13 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
                   id="email"
                   {...register("email")}
                   maxLength={30}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(
+                      /[^a-zA-Z0-9@_.-]/g,
+                      "",
+                    );
+                    return (e.target.value = clean);
+                  }}
                   className="pl-10 pr-4 py-6 bg-background/50 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                   placeholder="you@example.com"
                 />
@@ -167,6 +174,10 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   maxLength={8}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                    return (e.target.value = clean);
+                  }}
                   className="pl-10 pr-12 py-6 bg-background/50 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                   placeholder="••••••••"
                 />

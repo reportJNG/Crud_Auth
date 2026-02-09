@@ -27,32 +27,45 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    reset,
+    formState: { errors, isSubmitting },
+    resetField,
     clearErrors,
     watch,
-  } = useForm<Signupschema>({ resolver: zodResolver(signupschema) });
+  } = useForm<Signupschema>({
+    resolver: zodResolver(signupschema),
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+      name: "",
+      confirmpassword: "",
+    },
+  });
 
   const onSubmit = async (data: Signupschema) => {
-    if (passwordStrength < 75) {
+    if (passwordStrength < 100) {
       toast.warning("Create strong password");
     } else {
-      const id = toast.loading("Sign up in ...");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       const result = await signupact(data);
-      setTimeout(() => {
+      const id = toast.loading("Sign-in in...");
+      const timer = setTimeout(() => {
         toast.dismiss(id);
         if (result?.error) {
           toast.error(result.error);
-        } else if (result?.success) {
-          toast.success(result.success);
+        } else {
+          if (result?.success) {
+            toast.success(result.success);
+            resetField("name");
+            resetField("confirmpassword");
+            resetField("password");
+            resetField("email");
+            window.location.reload();
+          }
         }
-        setTimeout(() => {
-          reset();
-          clearErrors();
-          window.location.reload();
-        }, 2500);
       }, 1000);
+
+      return () => clearTimeout(timer);
     }
   };
 
@@ -147,8 +160,7 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
     let strength = 0;
     if (pass.length >= 6) strength += 25;
     if (/[A-Z]/.test(pass)) strength += 25;
-    if (/[0-9]/.test(pass)) strength += 25;
-    if (/[^A-Za-z0-9]/.test(pass)) strength += 25;
+    if (/[0-9]/.test(pass)) strength += 50;
     return strength;
   };
 
@@ -266,29 +278,6 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                 </button>
               </div>
 
-              {password && (
-                <div className="space-y-2">
-                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className={`h-full transition-all duration-300 ${
-                        passwordStrength <= 25
-                          ? "bg-destructive"
-                          : passwordStrength <= 50
-                            ? "bg-orange-500"
-                            : passwordStrength <= 75
-                              ? "bg-yellow-500"
-                              : "bg-green-500"
-                      }`}
-                      style={{ width: `${passwordStrength}%` }}
-                    />
-                  </div>
-                  <div className="text-xs text-muted-foreground flex justify-between">
-                    <span>Weak</span>
-                    <span>Strong</span>
-                  </div>
-                </div>
-              )}
-
               {visible.password && errors.password?.message && (
                 <div className="flex items-center gap-2 text-destructive text-sm animate-in fade-in slide-in-from-top-1">
                   <AlertCircle className="w-4 h-4" />
@@ -311,10 +300,9 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                   type={showPassword.confirmpassword ? "text" : "password"}
                   {...register("confirmpassword")}
                   maxLength={8}
-                  minLength={6}
                   onChange={(e) => {
                     const clean = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
-                    e.target.value = clean;
+                    return (e.target.value = clean);
                   }}
                   placeholder="••••••••"
                   className={`pl-10 pr-10 py-6 ${
@@ -374,11 +362,32 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                 </div>
               )}
             </div>
-
+            {password && (
+              <div className="space-y-2">
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-300 ${
+                      passwordStrength <= 25
+                        ? "bg-destructive"
+                        : passwordStrength <= 50
+                          ? "bg-orange-500"
+                          : passwordStrength <= 75
+                            ? "bg-yellow-500"
+                            : "bg-green-500"
+                    }`}
+                    style={{ width: `${passwordStrength}%` }}
+                  />
+                </div>
+                <div className="text-xs text-muted-foreground flex justify-between">
+                  <span>Weak</span>
+                  <span>Strong</span>
+                </div>
+              </div>
+            )}
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 className="flex-1 h-12 gap-2 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all shadow-lg hover:shadow-xl cursor-pointer"
               >
                 {isSubmitting ? (

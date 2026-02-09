@@ -3,39 +3,48 @@ import { Signupschema } from "@/schemas/signup.schema";
 import { prisma } from "@/lib/prisma";
 
 export default async function signupact(data: Signupschema) {
-  if (!data) {
-    return { error: "Try Again !" };
+  if (!data) return { error: "Try again!" };
+
+  const { email, name, password, confirmpassword } = data;
+
+  if (!email || !name || !password || !confirmpassword) {
+    return { error: "All fields are required" };
   }
-  if (!data.email) {
-    return { error: "Invalid email" };
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "Unexpected email" };
   }
-  if (!data.name) {
-    return { error: "Inavlid name" };
-  }
+
   if (
-    data.password.length < 6 ||
-    data.confirmpassword.length < 6 ||
-    data.password.length > 8 ||
-    data.confirmpassword.length > 8
+    !/^[A-Za-z0-9]+$/.test(password) ||
+    !/^[A-Za-z0-9]+$/.test(confirmpassword)
   ) {
-    return { error: "Inavlid password" };
+    return { error: "Password must contain only letters and numbers" };
   }
-  if (data.password !== data.confirmpassword) {
-    return { error: "Password doesnt match" };
+
+  if (!/^[A-Za-z0-9]+$/.test(name)) {
+    return { error: "Name must contain only letters and numbers" };
   }
-  const email = data.email as string;
-  const password = data.password as string;
-  const name = data.name as string;
 
-  const user = await prisma.users.create({
-    data: {
-      name: name,
-      email: email,
-      password: password,
-    },
-  });
+  if (password.length < 6 || password.length > 8) {
+    return { error: "Invalid password length" };
+  }
 
-  if (user) {
-    return { success: "Created Account" };
+  if (password !== confirmpassword) {
+    return { error: "Passwords do not match" };
+  }
+
+  const exist = await prisma.users.findUnique({ where: { email } });
+  if (exist) return { error: "Email is already in use" };
+
+  try {
+    const user = await prisma.users.create({
+      data: { name, email, password },
+    });
+
+    return { success: "Account created" };
+  } catch (err) {
+    console.error(err);
+    return { error: "Something went wrong" };
   }
 }
