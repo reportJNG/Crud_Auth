@@ -22,7 +22,7 @@ export default function UiUser({ name, id, deleteUser }: UiUserProps) {
 
       <button
         onClick={() => deleteUser(id)}
-        className="p-2 rounded-md text-destructive hover:bg-destructive/10 hover:text-destructive focus:outline-none focus:ring-2 focus:ring-destructive/50 transition-colors"
+        className="p-2 rounded-md text-destructive hover:bg-destructive/10 hover:text-destructive focus:outline-none focus:ring-2 focus:ring-destructive/50 transition-colors cursor-pointer"
         aria-label={`Delete user ${name}`}
       >
         <DeleteIcon className="size-4" />
