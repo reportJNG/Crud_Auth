@@ -17,7 +17,8 @@ import {
 } from "lucide-react";
 
 import { toast } from "sonner";
-import { loginact } from "../actions/login";
+import { loginact } from "../../app/actions/login";
+import { useRouter } from "next/navigation";
 
 interface Signupprops {
   setSwitcher: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,6 +41,7 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
       password: "",
     },
   });
+  const routes = useRouter();
   const onSubmit = async (data: LoginSchema) => {
     const id = toast.loading("Logging in...");
     const result = await loginact(data);
@@ -50,7 +52,12 @@ export default function Login({ setSwitcher, tabsSwitcher }: Signupprops) {
         resetField("password");
       } else {
         if (result.success) {
-          toast.error(result.success);
+          toast.success("Login Successfully");
+          resetField("email");
+          resetField("password");
+          setTimeout(() => {
+            routes.push("/Users");
+          }, 3000);
         }
       }
     }, 1000);

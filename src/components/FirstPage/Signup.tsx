@@ -16,7 +16,7 @@ import {
   AlertCircle,
   User,
 } from "lucide-react";
-import signupact from "../actions/signup";
+import signupact from "../../app/actions/signup";
 import { toast } from "sonner";
 
 interface Signupprops {

@@ -1,5 +1,5 @@
 "use client";
-import Main from "./Mainpage/Main";
+import Main from "../components/FirstPage/Main";
 export default function Home() {
   return <Main />;
 }

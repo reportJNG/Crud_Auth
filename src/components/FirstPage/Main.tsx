@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Login from "./Login";
 import Signup from "./Signup";
-import { ThemeToggle } from "./Themetoggle";
+import { ThemeToggle } from "../ui/Themetoggle";
 
 export default function Main() {
   const [switcher, setSwitcher] = useState<boolean>(false);
