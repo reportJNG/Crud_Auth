@@ -12,7 +12,7 @@ export default function AllUsers({ users }: AllUsersProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8">
       <div className="mb-8 flex items-center gap-3 rounded-lg border border-border bg-card p-4 shadow-sm md:p-6">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 md:h-12 md:w-12">
           <UserSquare className="h-5 w-5 text-primary md:h-6 md:w-6" />
@@ -44,7 +44,7 @@ export default function AllUsers({ users }: AllUsersProps) {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-card/50 py-16">
+          <div className="flex flex-col items-center justify-center  py-16">
             <UserSquare className="mb-4 h-12 w-12 text-muted-foreground/50" />
             <h3 className="text-lg font-medium text-muted-foreground">
               No users found
