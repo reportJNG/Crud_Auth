@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "../ui/Themetoggle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AllUsers from "./AllUsers";
 import {
   Github,
@@ -11,11 +11,29 @@ import {
   Eye,
   EyeClosed,
 } from "lucide-react";
+import { getuseract } from "@/app/actions/getusers";
+import { toast } from "sonner";
+import { users } from "@prisma/client";
 
 export default function Main() {
   const routes = useRouter();
   const [toggleeye, setToggleEye] = useState<boolean>(false);
-
+  const [users, setUsers] = useState<users[]>([]);
+  //need here get all users and put them inside an array
+  useEffect(() => {
+    const getusers = async () => {
+      const Result = await getuseract();
+      if ("error" in Result) {
+        toast.error(Result.error);
+      } else {
+        if (Result.success) {
+          toast.success(Result.success);
+          setUsers(Result.Users);
+        }
+      }
+    };
+    getusers();
+  }, []);
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -81,7 +99,7 @@ export default function Main() {
           <div className="transition-all duration-300 ease-in-out">
             {toggleeye ? (
               <div className="p-6 rounded-xl border border-border bg-card shadow-sm">
-                <AllUsers users={[]} />
+                <AllUsers users={users} />
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center p-12 rounded-xl border border-dashed border-border bg-card/50">
