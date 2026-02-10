@@ -33,7 +33,7 @@ export default function AllUsers({ users }: AllUsersProps) {
             {users.map((user) => (
               <div
                 key={user.id}
-                className="transform rounded-lg border border-border bg-card p-4 shadow-sm transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
+                className="transform shadow-sm transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
               >
                 <UiUser
                   name={user.name}
