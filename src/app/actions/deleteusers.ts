@@ -1,25 +1,20 @@
+"use server";
 import { prisma } from "@/lib/prisma";
 
-type delprops = { success: string } | { error: string };
-export async function deleteact(id: string): Promise<delprops> {
+type DelProps = { success: string } | { error: string };
+
+export async function deleteact(id: string): Promise<DelProps> {
+  if (!id) {
+    return { error: "Invalid user id" };
+  }
+
   try {
-    if (!id) {
-      return { error: "Try again later" };
-    }
-    const test = await prisma.users.findUnique({
+    await prisma.users.delete({
       where: { id },
     });
-    if (!test) {
-      return { error: "Failed data" };
-    }
-    const del = await prisma.users.delete({
-      where: { id },
-    });
-    if (!del) {
-      return { error: "Failed to delete" };
-    }
-    return { success: "User deleted succssefully" };
+
+    return { success: "User deleted successfully" };
   } catch (err) {
-    return { error: "Failed to fetch" };
+    return { error: "User not found or already deleted" };
   }
 }
