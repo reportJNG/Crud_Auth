@@ -1,14 +1,25 @@
 import { UserSquare } from "lucide-react";
 import { users } from "@prisma/client";
 import UiUser from "./UiUser";
-
+import { toast } from "sonner";
+import { deleteact } from "@/app/actions/deleteusers";
+import { useRouter } from "next/navigation";
 interface AllUsersProps {
   users: users[];
 }
 
 export default function AllUsers({ users }: AllUsersProps) {
+  const routes = useRouter();
   const handleDeleteUsers = async (id: string) => {
-    // Implement delete functionality
+    const ms1 = toast.loading("Deleting user ...");
+    const result = await deleteact(id);
+    toast.dismiss(ms1);
+    if ("error" in result) {
+      toast.error(result.error);
+    } else {
+      toast.success(result.success);
+    }
+    routes.refresh();
   };
 
   return (

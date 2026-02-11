@@ -5,7 +5,7 @@ type DelProps = { success: string } | { error: string };
 
 export async function deleteact(id: string): Promise<DelProps> {
   if (!id) {
-    return { error: "Invalid user id" };
+    return { error: "Failed fetch data" };
   }
 
   try {
@@ -15,6 +15,6 @@ export async function deleteact(id: string): Promise<DelProps> {
 
     return { success: "User deleted successfully" };
   } catch (err) {
-    return { error: "User not found or already deleted" };
+    return { error: "User not found" };
   }
 }
