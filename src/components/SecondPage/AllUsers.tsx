@@ -4,22 +4,35 @@ import UiUser from "./UiUser";
 import { toast } from "sonner";
 import { deleteact } from "@/app/actions/deleteusers";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Confirme from "./Confirme";
 interface AllUsersProps {
   users: users[];
 }
 
 export default function AllUsers({ users }: AllUsersProps) {
   const routes = useRouter();
+  const [ui, setUi] = useState<boolean>(false);
+  const [confirme, setConfirme] = useState<boolean>(false);
+  const [save, setSave] = useState<string>("");
   const handleDeleteUsers = async (id: string) => {
-    const ms1 = toast.loading("Deleting user ...");
-    const result = await deleteact(id);
-    toast.dismiss(ms1);
-    if ("error" in result) {
-      toast.error(result.error);
+    if (confirme) {
+      setUi((prev) => !prev);
+      const ms1 = toast.loading("Deleting user ...");
+      const result = await deleteact(id);
+      toast.dismiss(ms1);
+      if ("error" in result) {
+        toast.error(result.error);
+      } else {
+        toast.success(result.success);
+      }
+      routes.refresh();
+      setConfirme(false);
+      setSave("");
     } else {
-      toast.success(result.success);
+      setSave(id);
+      setUi((prev) => !prev);
     }
-    routes.refresh();
   };
 
   return (
@@ -66,6 +79,15 @@ export default function AllUsers({ users }: AllUsersProps) {
           </div>
         )}
       </div>
+      {ui && (
+        <Confirme
+          no={() => setUi((prev) => !prev)}
+          yes={() => {
+            setConfirme(true);
+            handleDeleteUsers(save);
+          }}
+        />
+      )}
     </div>
   );
 }
