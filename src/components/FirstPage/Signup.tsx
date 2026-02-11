@@ -366,28 +366,26 @@ export default function Signup({ setSwitcher, tabsSwitcher }: Signupprops) {
                 </div>
               )}
             </div>
-            {password && (
-              <div className="space-y-2">
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className={`h-full transition-all duration-300 ${
-                      passwordStrength <= 25
-                        ? "bg-destructive"
-                        : passwordStrength <= 50
-                          ? "bg-orange-500"
-                          : passwordStrength <= 75
-                            ? "bg-yellow-500"
-                            : "bg-green-500"
-                    }`}
-                    style={{ width: `${passwordStrength}%` }}
-                  />
-                </div>
-                <div className="text-xs text-muted-foreground flex justify-between">
-                  <span>Weak</span>
-                  <span>Strong</span>
-                </div>
+            <div className="space-y-2">
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div
+                  className={`h-full transition-all duration-300 ${
+                    passwordStrength <= 25
+                      ? "bg-destructive"
+                      : passwordStrength <= 50
+                        ? "bg-orange-500"
+                        : passwordStrength <= 75
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
+                  }`}
+                  style={{ width: `${passwordStrength}%` }}
+                />
               </div>
-            )}
+              <div className="text-xs text-muted-foreground flex justify-between">
+                <span>Weak</span>
+                <span>Strong</span>
+              </div>
+            </div>
             <div className="flex gap-3 pt-4">
               <Button
                 type="submit"

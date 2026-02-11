@@ -3,7 +3,6 @@ import { users } from "@prisma/client";
 import UiUser from "./UiUser";
 import { toast } from "sonner";
 import { deleteact } from "@/app/actions/deleteusers";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Confirme from "./Confirme";
 interface AllUsersProps {
@@ -11,30 +10,27 @@ interface AllUsersProps {
 }
 
 export default function AllUsers({ users }: AllUsersProps) {
-  const routes = useRouter();
   const [ui, setUi] = useState<boolean>(false);
-  const [confirme, setConfirme] = useState<boolean>(false);
   const [save, setSave] = useState<string>("");
   const handleDeleteUsers = async (id: string) => {
-    if (confirme) {
-      setUi((prev) => !prev);
-      const ms1 = toast.loading("Deleting user ...");
-      const result = await deleteact(id);
-      toast.dismiss(ms1);
-      if ("error" in result) {
-        toast.error(result.error);
-      } else {
-        toast.success(result.success);
-      }
-      routes.refresh();
-      setConfirme(false);
-      setSave("");
+    setUi((prev) => !prev);
+    const result = await deleteact(id);
+    if ("error" in result) {
+      toast.error(result.error);
     } else {
-      setSave(id);
-      setUi((prev) => !prev);
+      toast.success(result.success);
     }
+    setSave("");
+    const c = setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+    return () => clearTimeout(c);
   };
 
+  const handleuiuser = (id: string) => {
+    setSave(id);
+    setUi((prev) => !prev);
+  };
   return (
     <div className="min-h-screen p-4 md:p-6 lg:p-8">
       <div className="mb-8 flex items-center gap-3 rounded-lg border border-border bg-card p-4 shadow-sm md:p-6">
@@ -62,7 +58,7 @@ export default function AllUsers({ users }: AllUsersProps) {
                 <UiUser
                   name={user.name}
                   id={user.id}
-                  deleteUser={handleDeleteUsers}
+                  deleteUser={handleuiuser}
                 />
               </div>
             ))}
@@ -83,7 +79,6 @@ export default function AllUsers({ users }: AllUsersProps) {
         <Confirme
           no={() => setUi((prev) => !prev)}
           yes={() => {
-            setConfirme(true);
             handleDeleteUsers(save);
           }}
         />
